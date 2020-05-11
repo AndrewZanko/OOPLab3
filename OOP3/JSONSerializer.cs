@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 //using System.Text.Json;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 
 namespace OOP3
 {
@@ -14,20 +14,33 @@ namespace OOP3
     {
         const String path = "Employee.json";
         public String Serialized;
-
+        JsonSerializer serializer = new JsonSerializer();
 
         public void Serialize(List<Employee> employees)
         {
 
-            JsonSerializer serializer = new JsonSerializer();
+            
             JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            StreamWriter sw = new StreamWriter(path);
+            StreamWriter sw = new StreamWriter(path, false);
             JsonWriter jsonWriter = new JsonTextWriter(sw);
             
             serializer.Serialize(jsonWriter, employees);
             Serialized = JsonConvert.SerializeObject(employees, settings);
+            /* using (StreamWriter sc = new StreamWriter(path, false))
+             {
+                 sc.WriteLine(Serialized);
+             }*/
+            sw.WriteLine(Serialized);
             jsonWriter.Close();
             sw.Close();
+
+            /*
+             * 
+             * using (StreamWriter sw = new StreamWriter(path,false))
+                {
+                    sw.WriteLine(Serialized);
+                }
+             */
         }
 
         /* public  List<Employee> Deserialize()
@@ -43,7 +56,7 @@ namespace OOP3
                  return employees;
              }
          }*/
-        /*public List<Employee> Deserialize()
+        public List<Employee> Deserialize()
         {
             /*List<Employee> obj = null;
             JsonSerializer serializer = new JsonSerializer();
@@ -60,8 +73,17 @@ namespace OOP3
             List<Base> deserializedList = JsonConvert.DeserializeObject<List<Base>>(Serialized, settings);
              
              */
-          /*  JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-            string Serialized = JsonConvert.SerializeObject(employees, settings);
-        }*/
+            /*  JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+              string Serialized = JsonConvert.SerializeObject(employees, settings);*/
+
+            using (StreamReader r = new StreamReader(path))
+            {
+                JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+                //string json = r.ReadToEnd();
+                string json = r.ReadToEnd();
+                List<Employee> empl = JsonConvert.DeserializeObject<List<Employee>>(json, settings);
+                return empl;
+            }
+        }
     }
 }

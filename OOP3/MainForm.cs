@@ -212,7 +212,7 @@ namespace OOP3
             infoTB.Clear();
             ClearControls();
             JSONSerializer serializer = new JSONSerializer();   //new BinarySerializer();
-            //employees = serializer.Deserialize();
+            employees = serializer.Deserialize();
             //employees = serializer.Deserialize(typeof(List<Employee>)) as List<Employee>;
             RefreshListBox();
         }
