@@ -13,8 +13,6 @@ namespace OOP3
     public partial class MainForm : Form
     {
 
-        
-        
         public MainForm()
         {
             InitializeComponent();
@@ -104,7 +102,7 @@ namespace OOP3
         {
             try
             {
-                employees.Add(new Сourier(float.Parse(salaryTB.Text), idTB.Text, courierTypeCB.Text, autoTB.Text));
+                employees.Add(new Сourier(float.Parse(salaryTB.Text), idTB.Text, autoTB.Text, courierTypeCB.Text));
                 RefreshListBox();
             }
             catch (Exception ex)
@@ -115,7 +113,7 @@ namespace OOP3
 
         private void saveButton_Click(object sender, EventArgs e)   //SERIALIZING
         {
-            JSONSerializer serializer = new JSONSerializer();   //new BinarySerializer();
+            JSONSerializer serializer = new JSONSerializer();   
             serializer.Serialize(employees);
             
             RefreshListBox();
@@ -137,7 +135,7 @@ namespace OOP3
             storageNumberTB.Clear();
             courierTypeCB.Text = "";
             autoTB.Clear();
-
+            employeesListView.Enabled = true;
         }
         
         private void employeesListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -185,9 +183,7 @@ namespace OOP3
                 toleranceLevelCB.Text = security.toleranceLevel.ToString();
                 serviseWeaponIDTB.Text = security.serviceWeaponID.ToString();
             }
-
-
-                
+              
             if (employees[employeesListView.SelectedIndices[0]] is StorageEmployee)
             {
                 StorageEmployee storageEmployee = (StorageEmployee)employees[employeesListView.SelectedIndices[0]];
@@ -204,20 +200,20 @@ namespace OOP3
                 infoTB.Text += сourier.corierType + Environment.NewLine;                   
                 courierTypeCB.Text = сourier.corierType;                   
                 autoTB.Text = сourier.auto;
-            }  
+            }
+            employeesListView.Enabled = false;
         }
 
         private void button1_Click(object sender, EventArgs e)   //DESERIALIZATION
         {
             infoTB.Clear();
             ClearControls();
-            JSONSerializer serializer = new JSONSerializer();   //new BinarySerializer();
+            JSONSerializer serializer = new JSONSerializer();   
             employees = serializer.Deserialize();
-            //employees = serializer.Deserialize(typeof(List<Employee>)) as List<Employee>;
             RefreshListBox();
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void button7_Click(object sender, EventArgs e)   //EDITING
         {
             try
             {
@@ -226,7 +222,7 @@ namespace OOP3
                 employees[employeesListView.SelectedIndices[0]].salary = float.Parse(salaryTB.Text);
                 infoTB.Text = employees[employeesListView.SelectedIndices[0]].Name + Environment.NewLine;
                 infoTB.Text += employees[employeesListView.SelectedIndices[0]].salary.ToString() + Environment.NewLine;
-
+                employeesListView.Enabled = true;
 
                 if (employees[employeesListView.SelectedIndices[0]] is FactoryWorker)
                 {
@@ -286,10 +282,11 @@ namespace OOP3
             catch(Exception ex)
             {
                 MessageBox.Show("Выберите элемент");
+                employeesListView.Enabled = true;
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)  //FIRING
         {
             try
             {
@@ -301,6 +298,7 @@ namespace OOP3
             catch(Exception ex)
             {
                 MessageBox.Show("Выберите элемент");
+                employeesListView.Enabled = true;
             }
         }
 
