@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OOP3
@@ -30,6 +24,7 @@ namespace OOP3
                 listItem.Text = employee.Name;
                 employeesListView.Items.Add(listItem);
             }
+            employeesListView.Enabled = true;
         }
 
         private void factoryWorkerButton_Click(object sender, EventArgs e)
@@ -302,19 +297,12 @@ namespace OOP3
             }
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void MainForm_Click(object sender, EventArgs e)
         {
             RefreshListBox();
         }
+
+ 
     }
 }
